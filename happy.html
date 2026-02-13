@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Page</title>
+    <style>
+        /* ... (keep your existing styles) ... */
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <!-- Content will be dynamically replaced -->
+    </div>
+    <script>
+        // Updated getCurrentPage function
+        function getCurrentPage() {
+            const path = window.location.pathname;
+            const filename = path.split('/').pop().replace('.html', '');
+            if (filename === 'happy') {
+                return { level: 0, parent: null };
+            } else if (filename.startsWith('page') && !filename.includes('_')) {
+                return { level: 1, parent: filename.replace('page', '') };
+            } else if (filename.includes('_')) {
+                const parts = filename.split('_');
+                return { level: parts.length, parent: parts.join('_') };
+            }
+            return { level: 0, parent: null };
+        }
+
+        // Updated getBackURL function
+        function getBackURL(level, parent) {
+            if (level === 0) {
+                return 'happy.html';
+            } else if (level === 1) {
+                return 'happy.html';
+            } else {
+                const parts = parent.split('_');
+                return 'page' + parts.slice(0, -1).join('_') + '.html';
+            }
+        }
+
+        // Get next URL for column click
+        function getNextURL(level, parent, col) {
+            if (level === 0) {
+                return 'page' + col + '.html';
+            } else {
+                return 'page' + parent + '_' + col + '.html';
+            }
+        }
+
+        // State
+        const { level, parent } = getCurrentPage();
+        const thoughtKey = 'thought-' + window.location.pathname;
+
+        // Main container
+        const container = document.getElementById('mainContainer');
+
+        // Render page
+        function renderPage() {
+            let content = '';
+            const columnsCount = 4;
+            const savedThought = localStorage.getItem(thoughtKey) || '';
+
+            if (level === 0) {
+                content = `
+                    <h1>You are Happy!</h1>
+                    <p>This is the happy page. Smile and enjoy your day!</p>
+                    <textarea id="thoughtInput" placeholder="Enter your thought here...">${savedThought}</textarea>
+                    <div class="columns-container" id="columns">
+                        ${createColumns(columnsCount)}
+                    </div>
+                `;
+            } else {
+                content = `
+                    <h1>Page ${parent.replace('_', ' ')}</h1>
+                    <textarea id="thoughtInput" placeholder="Enter your thought here...">${savedThought}</textarea>
+                    <div class="columns-container" id="columns">
+                        ${createColumns(columnsCount)}
+                    </div>
+                `;
+            }
+            content += `<a href="happy.html">Home</a><button id="backBtn">Back</button>`;
+            container.innerHTML = content;
+
+            // Add event listeners
+            document.querySelectorAll('.column').forEach(col => {
+                col.addEventListener('click', () => {
+                    window.location.href = getNextURL(level, parent, col.textContent);
+                });
+            });
+            document.getElementById('backBtn').addEventListener('click', () => {
+                window.location.href = getBackURL(level, parent);
+            });
+
+            // Save thought
+            document.getElementById('thoughtInput').addEventListener('input', (e) => {
+                localStorage.setItem(thoughtKey, e.target.value);
+            });
+        }
+
+        // Create columns
+        function createColumns(count) {
+            return Array.from({length: count}, (_, i) => `<div class="column">${i + 1}</div>`).join('');
+        }
+
+        // Initialize
+        renderPage();
+    </script>
+</body>
+</html>
