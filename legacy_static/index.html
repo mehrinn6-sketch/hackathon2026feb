@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Fortune Teller</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Mood Selection Screen -->
+        <section id="mood-screen" class="screen active">
+            <h1>How are you feeling today?</h1>
+            <div class="mood-buttons">
+                <button class="mood-btn happy" data-mood="happy">
+                    <span class="emoji">😊</span> Happy
+                </button>
+                <button class="mood-btn sad" data-mood="sad">
+                    <span class="emoji">😢</span> Sad
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Fortune Teller Screen -->
+        <section id="game-screen" class="screen hidden">
+            <div class="header">
+                <button id="back-btn">← Back</button>
+                <h2 id="instruction-text">Pick a color</h2>
+            </div>
+
+            <div class="fortune-teller-container">
+                <div id="fortune-teller" class="fortune-teller">
+                    <!-- Dynamic content will be injected here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Result Screen -->
+        <section id="result-screen" class="screen hidden">
+            <div class="result-content">
+                <h2>Your Fortune</h2>
+                <p id="fortune-text"></p>
+                <button id="restart-btn" class="primary-btn">Start Over</button>
+            </div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
