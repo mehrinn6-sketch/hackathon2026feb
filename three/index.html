@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>motivation catcher · daily boost</title>
+    <title>mood catcher · thoughts for every feeling</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,7 +12,7 @@
         }
 
         body {
-            background: linear-gradient(145deg, #c1e0f9 0%, #a5d0f5 100%);
+            background: linear-gradient(145deg, #e0c1f9 0%, #c5a0f5 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -23,11 +23,11 @@
         }
 
         .game-container {
-            background: #e9f2fa;
+            background: #f2e6fa;
             border-radius: 48px 48px 32px 32px;
-            box-shadow: 0 20px 30px rgba(0,0,0,0.2), inset 0 0 0 2px #d9e9f9, inset 0 0 0 6px #a5d0f5;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2), inset 0 0 0 2px #e2d1f9, inset 0 0 0 6px #c5a0f5;
             padding: 28px 20px 32px 20px;
-            max-width: 600px;
+            max-width: 650px;
             width: 100%;
         }
 
@@ -36,26 +36,82 @@
             font-size: 2.5rem;
             font-weight: 500;
             letter-spacing: 2px;
-            color: #1d4e6f;
-            text-shadow: 4px 4px 0 #9ac0e0;
+            color: #4a2d6f;
+            text-shadow: 4px 4px 0 #b89ae0;
             margin-top: -10px;
             margin-bottom: 16px;
             word-break: break-word;
-            transform: rotate(-1deg);
+        }
+
+        /* MOOD SELECTOR */
+        .mood-selector {
+            background: #d9c2f0;
+            border-radius: 60px;
+            padding: 24px 16px;
+            margin-bottom: 24px;
+            box-shadow: inset 0 0 0 4px #b592e0, 0 6px 0 #4a2d6f;
+        }
+
+        .mood-title {
+            font-size: 2rem;
+            text-align: center;
+            color: #2d1b45;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        .mood-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .mood-btn {
+            font-size: 2rem;
+            padding: 16px 28px;
+            border-radius: 60px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.1s ease;
+            box-shadow: 0 6px 0 #4a2d6f, 0 4px 12px rgba(0,0,0,0.2);
+            flex: 1 1 auto;
+            min-width: 150px;
+            border: 3px solid white;
+        }
+
+        .mood-btn.active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #4a2d6f, 0 4px 12px rgba(0,0,0,0.2);
+            border: 3px solid gold;
+        }
+
+        #moodHappy {
+            background: #ffe57f;
+            color: #8a6b2f;
+        }
+        #moodSad {
+            background: #9fc7f0;
+            color: #1d4b6e;
+        }
+        #moodMotivation {
+            background: #b8f0b8;
+            color: #1e6b1e;
         }
 
         .fortune-paper {
-            background: #d9e9f9;
+            background: #e2d1f9;
             border-radius: 120px 120px 60px 60px;
             padding: 20px 12px 12px 12px;
-            box-shadow: inset 0 4px 10px #7ca5c9, 0 10px 0 #3a6285;
+            box-shadow: inset 0 4px 10px #a27ac9, 0 10px 0 #5a3a85;
         }
 
         .picker-zone {
-            background: #c1dff5;
+            background: #d2bcf0;
             border-radius: 80px;
             padding: 18px 10px 10px 10px;
-            box-shadow: inset 0 -3px 0 #5f8ab0;
+            box-shadow: inset 0 -3px 0 #7f5fb0;
         }
 
         .fold-grid {
@@ -75,6 +131,7 @@
             box-shadow: 0 6px 0 #b48d66, 0 8px 12px rgba(0,0,0,0.2);
             transition: all 0.1s ease;
             border: 2px solid #f5ba88;
+            cursor: pointer;
         }
 
         .flap-number {
@@ -87,36 +144,82 @@
             margin-bottom: 4px;
         }
 
-        .flap-letters {
+        .flap-numbers {
             display: flex;
             justify-content: center;
-            gap: 16px;
-            font-size: 2.2rem;
-            font-weight: 600;
-            color: #1d4e6f;
+            gap: 25px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #4a2d6f;
             background: #fdf1e0;
             border-radius: 60px;
-            padding: 6px 10px;
+            padding: 8px 16px;
             border: 2px solid #eab281;
+            cursor: pointer;
         }
 
-        .fortune-screen {
-            background: #d1e2f0;
+        .flap-numbers span {
+            cursor: pointer;
+            padding: 5px 15px;
+            border-radius: 40px;
+            transition: 0.1s ease;
+        }
+
+        .flap-numbers span:hover {
+            background: #ffd966;
+            transform: scale(1.1);
+        }
+
+        .flap-numbers span.selected {
+            background: gold;
+            box-shadow: 0 0 0 3px #ff7f4f;
+        }
+
+        .selection-display {
+            background: #b092d4;
+            border-radius: 40px;
+            padding: 15px;
+            margin: 10px 0 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            font-size: 2rem;
+            color: white;
+            text-shadow: 2px 2px 0 #4a2d6f;
+            font-weight: bold;
+        }
+
+        .selection-item {
+            background: #4a2d6f;
+            padding: 10px 25px;
+            border-radius: 40px;
+            min-width: 120px;
+            text-align: center;
+            border: 3px solid #f0e2ff;
+        }
+
+        .selection-item span {
+            color: gold;
+            margin-right: 8px;
+        }
+
+        .message-screen {
+            background: #d2bcf0;
             border-radius: 50px;
             padding: 22px 12px;
             margin: 12px 0 24px;
-            box-shadow: inset 0 0 0 4px #9bb9d4, 0 6px 0 #2d5475;
+            box-shadow: inset 0 0 0 4px #b092d4, 0 6px 0 #4a2d6f;
         }
 
-        .fortune-message {
+        .message-display {
             background: white;
             font-size: 2rem;
             padding: 26px 16px;
             text-align: center;
             border-radius: 40px;
-            color: #1d3b4f;
-            box-shadow: inset 0 2px 10px #7c9ec2;
-            border: 3px dashed #6d9ac8;
+            color: #2d1b45;
+            box-shadow: inset 0 2px 10px #9c7ac2;
+            border: 3px dashed #9a7cc0;
             word-break: break-word;
             min-height: 150px;
             display: flex;
@@ -135,44 +238,76 @@
         }
 
         button {
-            background: #4682b4;
+            background: #7a5fa0;
             border: none;
             font-size: 1.8rem;
             font-weight: bold;
             padding: 18px 28px;
             border-radius: 60px;
-            color: #f0f8ff;
-            text-shadow: 2px 2px 0 #1e3e5c;
-            box-shadow: 0 8px 0 #1e3e5c, 0 6px 16px #5f7f9f;
+            color: #f0e8ff;
+            text-shadow: 2px 2px 0 #392b5a;
+            box-shadow: 0 8px 0 #392b5a, 0 6px 16px #6f4f9f;
             cursor: pointer;
             transition: 0.06s linear;
             font-family: inherit;
             letter-spacing: 1px;
             flex: 1 1 auto;
             min-width: 160px;
-            border: 2px solid #b0d4f0;
+            border: 2px solid #cfb5f0;
         }
 
         button:active {
             transform: translateY(6px);
-            box-shadow: 0 2px 0 #1e3e5c, 0 6px 16px #5f7f9f;
+            box-shadow: 0 2px 0 #392b5a, 0 6px 16px #6f4f9f;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #392b5a;
+            cursor: not-allowed;
+        }
+
+        .go-button {
+            background: #ff9900;
+            text-shadow: 2px 2px 0 #b36b00;
+            box-shadow: 0 8px 0 #b36b00, 0 6px 16px #ffb347;
+            font-size: 2.2rem;
+            padding: 20px 40px;
+            min-width: 200px;
+            border: 3px solid gold;
+        }
+
+        .go-button:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 #b36b00, 0 6px 16px #ffb347;
+        }
+
+        .go-button.ready {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); background: #ffb347; }
+            100% { transform: scale(1); }
         }
 
         .instructions {
-            background: #c8dff0;
+            background: #d9c2f0;
             border-radius: 40px;
             padding: 20px 16px;
             margin-top: 24px;
             font-size: 1.4rem;
             text-align: center;
-            color: #1d3b4f;
-            border: 4px solid #6d9ac8;
-            box-shadow: inset 0 0 0 2px #e1f0fa;
+            color: #2d1b45;
+            border: 4px solid #9a7cc0;
+            box-shadow: inset 0 0 0 2px #f0e2ff;
         }
 
         .instructions span {
-            background: #2d5475;
-            color: #e1f0fa;
+            background: #4a2d6f;
+            color: #f0e2ff;
             padding: 4px 18px;
             border-radius: 60px;
             margin: 0 4px;
@@ -183,60 +318,101 @@
         .credit {
             text-align: center;
             margin-top: 12px;
-            color: #2d5475;
+            color: #4a2d6f;
             font-size: 1.2rem;
+        }
+
+        .mood-indicator {
+            font-size: 1.8rem;
+            text-align: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: #ffffff88;
+            border-radius: 40px;
+            border: 2px solid #9a7cc0;
         }
     </style>
 </head>
 <body>
 <div class="game-container">
-    <h1>✧ MOTIVATION CATCHER ✧</h1>
+    <h1>✧ MOOD CATCHER ✧</h1>
+    
+    <!-- MOOD SELECTOR SECTION -->
+    <div class="mood-selector">
+        <div class="mood-title">how are you feeling today?</div>
+        <div class="mood-buttons">
+            <button class="mood-btn" id="moodHappy">😊 HAPPY</button>
+            <button class="mood-btn" id="moodSad">😢 SAD</button>
+            <button class="mood-btn" id="moodMotivation">💪 MOTIVATION</button>
+        </div>
+    </div>
+
     <div class="fortune-paper">
         <div class="picker-zone">
-            <!-- the four coloured flaps -->
+            <!-- mood indicator -->
+            <div class="mood-indicator" id="moodDisplay">✨ pick your mood first ✨</div>
+
+            <!-- the four coloured flaps with numbers 1-8 (clickable) -->
             <div class="fold-grid">
-                <!-- flap 1 : red / north -->
-                <div class="color-flap" style="background: #fbc1b1;">
-                    <div class="flap-number">1</div>
-                    <div class="flap-letters">🅐 🅔</div>
+                <!-- flap 1 : red - numbers 1,2 -->
+                <div class="color-flap" style="background: #fbc1b1;" data-flap="1">
+                    <div class="flap-number">①</div>
+                    <div class="flap-numbers">
+                        <span data-number="1">1</span>
+                        <span data-number="2">2</span>
+                    </div>
                 </div>
-                <!-- flap 2 : yellow / west -->
-                <div class="color-flap" style="background: #f5e58b;">
-                    <div class="flap-number">2</div>
-                    <div class="flap-letters">🅘 🅞</div>
+                <!-- flap 2 : yellow - numbers 3,4 -->
+                <div class="color-flap" style="background: #f5e58b;" data-flap="2">
+                    <div class="flap-number">②</div>
+                    <div class="flap-numbers">
+                        <span data-number="3">3</span>
+                        <span data-number="4">4</span>
+                    </div>
                 </div>
-                <!-- flap 3 : blue / south -->
-                <div class="color-flap" style="background: #a9d6e5;">
-                    <div class="flap-number">3</div>
-                    <div class="flap-letters">🅤 🅕</div>
+                <!-- flap 3 : blue - numbers 5,6 -->
+                <div class="color-flap" style="background: #a9d6e5;" data-flap="3">
+                    <div class="flap-number">③</div>
+                    <div class="flap-numbers">
+                        <span data-number="5">5</span>
+                        <span data-number="6">6</span>
+                    </div>
                 </div>
-                <!-- flap 4 : green / east -->
-                <div class="color-flap" style="background: #b6d7a8;">
-                    <div class="flap-number">4</div>
-                    <div class="flap-letters">🅢 🅣</div>
+                <!-- flap 4 : green - numbers 7,8 -->
+                <div class="color-flap" style="background: #b6d7a8;" data-flap="4">
+                    <div class="flap-number">④</div>
+                    <div class="flap-numbers">
+                        <span data-number="7">7</span>
+                        <span data-number="8">8</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- MOTIVATION DISPLAY -->
-            <div class="fortune-screen">
-                <div class="fortune-message" id="motivationText">
-                    pick a number<br>✦ then a letter ✦
+            <!-- SELECTION DISPLAY -->
+            <div class="selection-display">
+                <div class="selection-item" id="displayMood"><span>😊</span> -- </div>
+                <div class="selection-item" id="displayNumber"><span>🔢</span> -- </div>
+            </div>
+
+            <!-- MESSAGE DISPLAY -->
+            <div class="message-screen">
+                <div class="message-display" id="messageText">
+                    select mood first<br>✦ then click a number ✦
                 </div>
             </div>
 
             <!-- BUTTON PANEL -->
             <div class="action-panel">
-                <button id="chooseNumberBtn">🔢 1 2 3 4</button>
-                <button id="chooseLetterBtn">🔤 pick letter</button>
-                <button id="resetBtn">🌀 new boost</button>
+                <button id="goBtn" class="go-button" disabled>🚀 GO</button>
+                <button id="resetBtn">🌀 start over</button>
             </div>
 
             <div class="instructions">
-                <span>1</span> click a number → <span>2</span> click a letter →<br>
-                💪 get your daily motivation 💪
+                <span>1</span> pick mood → <span>2</span> click a number (1-8) → <span>3</span> click GO<br>
+                💭 get your personalized thought 💭
             </div>
             <div class="credit">
-                ⚡ daily boost · you've got this ⚡
+                ⚡ thoughts for every feeling ⚡
             </div>
         </div>
     </div>
@@ -244,161 +420,253 @@
 
 <script>
     (function() {
-        // ----- MOTIVATIONAL QUOTES (eight powerful thoughts) -----
-        const MOTIVATIONS = [
-            "💪 YOU ARE STRONGER THAN YOU THINK 💪",
-            "✨ TODAY IS FULL OF POSSIBILITIES ✨", 
-            "🌟 BELIEVE YOU CAN AND YOU'RE HALFWAY THERE 🌟",
-            "💖 YOU DESERVE GOOD THINGS TODAY 💖",
-            "🌙 EVERY EXPERT WAS ONCE A BEGINNER 🌙",
-            "⭐ YOUR POTENTIAL IS LIMITLESS ⭐",
-            "🎉 PROGRESS > PERFECTION 🎉",
-            "🍭 YOU ARE ENOUGH, JUST AS YOU ARE 🍭"
-        ];
-
-        // mapping flap number -> array of two letters
-        const FLAP_LETTERS = {
-            1: ['A', 'E'],
-            2: ['I', 'O'],
-            3: ['U', 'F'],
-            4: ['S', 'T']
+        // ----- MESSAGES FOR EACH MOOD (8 per mood) -----
+        const MESSAGES = {
+            happy: [
+                "😊 YOUR SMILE BRIGHTENS SOMEONE'S DAY",
+                "✨ THIS HAPPINESS? YOU DESERVE IT ALL",
+                "🌟 TODAY IS YOUR DAY - ENJOY EVERY MOMENT",
+                "💖 SPREAD YOUR JOY, IT'S CONTAGIOUS",
+                "🌙 HAPPY VIBES ATTRACT GOOD THINGS",
+                "⭐ YOUR ENERGY IS MAGNETIC TODAY",
+                "🎉 CELEBRATE THE LITTLE WINS",
+                "🍭 LIFE IS GOOD AND YOU ARE TOO"
+            ],
+            sad: [
+                "💙 IT'S OKAY NOT TO BE OKAY",
+                "🌧️ STORMS DON'T LAST FOREVER",
+                "🌸 THIS FEELING WILL PASS, BE GENTLE WITH YOURSELF",
+                "🤗 YOU ARE LOVED, EVEN WHEN IT'S HARD TO FEEL IT",
+                "🌙 REST IF YOU MUST, BUT DON'T YOU QUIT",
+                "💫 EVEN THE DARKEST NIGHT ENDS WITH SUNRISE",
+                "🧸 BE KIND TO YOUR HEART TODAY",
+                "💕 YOU'VE MADE IT THROUGH 100% OF YOUR BAD DAYS"
+            ],
+            motivation: [
+                "💪 YOU ARE STRONGER THAN YOU THINK",
+                "🚀 DREAM BIG, THEN MAKE IT HAPPEN",
+                "⚡ YOUR POTENTIAL IS LIMITLESS",
+                "🎯 EVERY EXPERT WAS ONCE A BEGINNER",
+                "🌟 BELIEVE YOU CAN AND YOU'RE HALFWAY THERE",
+                "🔥 PROGRESS, NOT PERFECTION",
+                "💫 YOU'VE GOT THE POWER TO CHANGE YOUR STORY",
+                "🌈 TODAY'S EFFORT = TOMORROW'S SUCCESS"
+            ]
         };
 
         // ---------- state ----------
-        let phase = 'number';            
-        let selectedNumber = null;        
-        let selectedLetter = null;        
+        let currentMood = null;          // 'happy', 'sad', 'motivation'
+        let selectedNumber = null;        // 1-8
+        let readyForGo = false;
 
         // DOM elements
-        const motivationDiv = document.getElementById('motivationText');
-        const numberBtn = document.getElementById('chooseNumberBtn');
-        const letterBtn = document.getElementById('chooseLetterBtn');
+        const messageDiv = document.getElementById('messageText');
+        const moodDisplay = document.getElementById('moodDisplay');
+        const displayMood = document.getElementById('displayMood');
+        const displayNumber = document.getElementById('displayNumber');
+        const goBtn = document.getElementById('goBtn');
         const resetBtn = document.getElementById('resetBtn');
+        const moodHappy = document.getElementById('moodHappy');
+        const moodSad = document.getElementById('moodSad');
+        const moodMotivation = document.getElementById('moodMotivation');
+        const numberSpans = document.querySelectorAll('.flap-numbers span');
         const flaps = document.querySelectorAll('.color-flap');
+        const moodBtns = [moodHappy, moodSad, moodMotivation];
 
-        // helper: clear any highlight from flaps
-        function clearFlapHighlights() {
+        // helper: clear all selections
+        function clearAllSelections() {
+            // remove selected class from all numbers
+            numberSpans.forEach(span => {
+                span.classList.remove('selected');
+            });
+            
+            // remove highlight from all flaps
             flaps.forEach(flap => {
                 flap.style.boxShadow = '0 6px 0 #b48d66, 0 8px 12px rgba(0,0,0,0.2)';
                 flap.style.border = '2px solid #f5ba88';
             });
         }
 
-        // highlight a specific flap by number
-        function highlightFlap(number) {
-            clearFlapHighlights();
-            if (number >= 1 && number <= 4) {
-                const target = flaps[number - 1];
-                target.style.boxShadow = '0 0 0 4px #fdb, 0 6px 0 #b48d66, 0 8px 12px black';
-                target.style.border = '3px solid #ff7f4f';
+        // highlight the flap containing a number
+        function highlightFlapForNumber(number) {
+            // first clear all flap highlights
+            flaps.forEach(flap => {
+                flap.style.boxShadow = '0 6px 0 #b48d66, 0 8px 12px rgba(0,0,0,0.2)';
+                flap.style.border = '2px solid #f5ba88';
+            });
+            
+            // determine which flap contains this number
+            let flapNum;
+            if (number <= 2) flapNum = 1;
+            else if (number <= 4) flapNum = 2;
+            else if (number <= 6) flapNum = 3;
+            else flapNum = 4;
+            
+            // highlight that flap
+            const targetFlap = document.querySelector(`.color-flap[data-flap="${flapNum}"]`);
+            if (targetFlap) {
+                targetFlap.style.boxShadow = '0 0 0 4px #fdb, 0 6px 0 #b48d66, 0 8px 12px black';
+                targetFlap.style.border = '3px solid #ff7f4f';
+            }
+        }
+
+        // remove active class from all mood buttons
+        function clearMoodActive() {
+            moodBtns.forEach(btn => {
+                btn.classList.remove('active');
+            });
+        }
+
+        // update selection display
+        function updateSelectionDisplay() {
+            if (currentMood) {
+                const moodEmoji = currentMood === 'happy' ? '😊' : currentMood === 'sad' ? '😢' : '💪';
+                const moodName = currentMood === 'happy' ? 'HAPPY' : currentMood === 'sad' ? 'SAD' : 'MOTIVATION';
+                displayMood.innerHTML = `<span>${moodEmoji}</span> ${moodName}`;
+            } else {
+                displayMood.innerHTML = `<span>😊</span> --`;
+            }
+            
+            if (selectedNumber) {
+                displayNumber.innerHTML = `<span>🔢</span> ${selectedNumber}`;
+            } else {
+                displayNumber.innerHTML = `<span>🔢</span> --`;
+            }
+        }
+
+        // set mood
+        function setMood(mood) {
+            currentMood = mood;
+            clearMoodActive();
+            
+            // highlight selected mood button
+            if (mood === 'happy') moodHappy.classList.add('active');
+            if (mood === 'sad') moodSad.classList.add('active');
+            if (mood === 'motivation') moodMotivation.classList.add('active');
+            
+            // update mood display
+            const moodEmoji = mood === 'happy' ? '😊' : mood === 'sad' ? '😢' : '💪';
+            const moodName = mood === 'happy' ? 'HAPPY' : mood === 'sad' ? 'SAD' : 'MOTIVATION';
+            moodDisplay.innerHTML = `${moodEmoji} mood: ${moodName} ${moodEmoji}`;
+            
+            updateSelectionDisplay();
+            
+            // check if ready for GO
+            checkReadyForGo();
+            
+            messageDiv.innerHTML = `mood set! now click a number (1-8)`;
+        }
+
+        // select a number
+        function selectNumber(number) {
+            // clear previous number selection
+            numberSpans.forEach(span => {
+                span.classList.remove('selected');
+            });
+            
+            // highlight the clicked number
+            const selectedSpan = Array.from(numberSpans).find(span => parseInt(span.dataset.number) === number);
+            if (selectedSpan) {
+                selectedSpan.classList.add('selected');
+            }
+            
+            selectedNumber = number;
+            highlightFlapForNumber(number);
+            updateSelectionDisplay();
+            
+            // check if ready for GO
+            checkReadyForGo();
+            
+            messageDiv.innerHTML = `number ${number} selected! click GO 🚀`;
+        }
+
+        // check if both mood and number are selected
+        function checkReadyForGo() {
+            if (currentMood && selectedNumber) {
+                goBtn.disabled = false;
+                goBtn.classList.add('ready');
+            } else {
+                goBtn.disabled = true;
+                goBtn.classList.remove('ready');
             }
         }
 
         // reset entire game
         function resetGame() {
-            phase = 'number';
+            currentMood = null;
             selectedNumber = null;
-            selectedLetter = null;
-            clearFlapHighlights();
-            motivationDiv.innerHTML = 'pick a number<br>✦ then a letter ✦';
+            clearMoodActive();
+            clearAllSelections();
+            goBtn.disabled = true;
+            goBtn.classList.remove('ready');
+            moodDisplay.innerHTML = '✨ pick your mood first ✨';
+            updateSelectionDisplay();
+            messageDiv.innerHTML = 'select mood first<br>✦ then click a number ✦';
         }
 
-        // call when number is chosen
-        function chooseNumber(num) {
-            if (num < 1 || num > 4) return;
-            selectedNumber = num;
-            selectedLetter = null;
-            phase = 'letter';
-            highlightFlap(num);
-            motivationDiv.innerHTML = `number ${num} · now pick a letter<br>➥ ${FLAP_LETTERS[num][0]}  or  ${FLAP_LETTERS[num][1]}`;
-        }
-
-        // pick a letter and show motivation
-        function pickLetter(letter) {
-            if (phase !== 'letter') {
-                motivationDiv.innerHTML = 'first pick a number (click 1️⃣2️⃣3️⃣4️⃣)';
-                return false;
-            }
-            if (selectedNumber === null) {
-                phase = 'number';
-                motivationDiv.innerHTML = 'pick a number first';
-                return false;
-            }
-
-            const validLetters = FLAP_LETTERS[selectedNumber];
-            if (!validLetters.includes(letter)) {
-                motivationDiv.innerHTML = `🤔 pick ${validLetters[0]} or ${validLetters[1]}`;
-                return false;
-            }
-
-            // valid letter chosen
-            selectedLetter = letter;
-
-            // generate motivation based on number + letter
-            let letterIndex = (validLetters[0] === letter) ? 0 : 1;
-            let motivationIdx = (selectedNumber - 1) * 2 + letterIndex;
-
-            const finalMotivation = MOTIVATIONS[motivationIdx];
-
-            // display motivation
-            motivationDiv.innerHTML = `💫 ${finalMotivation} 💫`;
-            phase = 'reveal';
-            highlightFlap(selectedNumber);
-            return true;
-        }
-
-        // number button - cycles through numbers
-        numberBtn.addEventListener('click', () => {
-            let nextNum;
-            if (selectedNumber === null) {
-                nextNum = 1;
-            } else {
-                nextNum = (selectedNumber % 4) + 1;
-            }
-            chooseNumber(nextNum);
-        });
-
-        // letter button - cycles through the two letters
-        letterBtn.addEventListener('click', () => {
-            if (phase !== 'letter' || selectedNumber === null) {
-                motivationDiv.innerHTML = '❗ first choose a number (click 1️⃣2️⃣3️⃣4️⃣)';
+        // GO button - reveal the message
+        function revealMessage() {
+            if (!currentMood || !selectedNumber) {
+                messageDiv.innerHTML = '❗ please select mood and a number first';
                 return;
             }
 
-            const letters = FLAP_LETTERS[selectedNumber];
+            // generate message based on mood + number
+            let messageIdx = selectedNumber - 1;
+            const finalMessage = MESSAGES[currentMood][messageIdx];
+
+            // add appropriate emoji based on mood
+            const moodEmoji = currentMood === 'happy' ? '😊' : currentMood === 'sad' ? '💙' : '💪';
             
-            if (phase === 'letter' && selectedLetter === null) {
-                // pick first letter
-                pickLetter(letters[0]);
-            } 
-            else if (phase === 'letter' && selectedLetter !== null) {
-                // toggle between the two letters
-                let nextLetter = (selectedLetter === letters[0]) ? letters[1] : letters[0];
-                pickLetter(nextLetter);
-            } 
-            else if (phase === 'reveal') {
-                // go back to letter phase with same number
-                if (selectedNumber) {
-                    phase = 'letter';
-                    selectedLetter = null;
-                    highlightFlap(selectedNumber);
-                    motivationDiv.innerHTML = `number ${selectedNumber} · pick letter → ${FLAP_LETTERS[selectedNumber][0]} or ${FLAP_LETTERS[selectedNumber][1]}`;
-                } else {
-                    resetGame();
+            // display message
+            messageDiv.innerHTML = `${moodEmoji} ${finalMessage} ${moodEmoji}`;
+        }
+
+        // MOOD BUTTONS
+        moodHappy.addEventListener('click', () => setMood('happy'));
+        moodSad.addEventListener('click', () => setMood('sad'));
+        moodMotivation.addEventListener('click', () => setMood('motivation'));
+
+        // NUMBER CLICK - directly on the numbers
+        numberSpans.forEach(span => {
+            span.addEventListener('click', (e) => {
+                e.stopPropagation(); // prevent triggering flap click
+                if (!currentMood) {
+                    messageDiv.innerHTML = '❗ select your mood first!';
+                    return;
                 }
-            }
+                const number = parseInt(span.dataset.number);
+                selectNumber(number);
+            });
         });
+
+        // clicking on flap (background) - just for convenience, but we'll make it select the first number on that flap
+        flaps.forEach(flap => {
+            flap.addEventListener('click', (e) => {
+                // if the click was on the flap background (not on a number span)
+                if (!e.target.matches('.flap-numbers span')) {
+                    if (!currentMood) {
+                        messageDiv.innerHTML = '❗ select your mood first!';
+                        return;
+                    }
+                    // get the first number from this flap
+                    const flapNum = parseInt(flap.dataset.flap);
+                    let firstNumber;
+                    if (flapNum === 1) firstNumber = 1;
+                    else if (flapNum === 2) firstNumber = 3;
+                    else if (flapNum === 3) firstNumber = 5;
+                    else firstNumber = 7;
+                    
+                    selectNumber(firstNumber);
+                }
+            });
+        });
+
+        // GO button
+        goBtn.addEventListener('click', revealMessage);
 
         // reset button
         resetBtn.addEventListener('click', resetGame);
-
-        // click on flap to choose number
-        flaps.forEach((flap, index) => {
-            flap.addEventListener('click', () => {
-                const num = index + 1;
-                chooseNumber(num);
-            });
-        });
 
         // initialize
         resetGame();
