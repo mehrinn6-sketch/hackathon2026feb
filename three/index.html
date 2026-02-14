@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>motivation catcher · daily boost</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(145deg, #c1e0f9 0%, #a5d0f5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+            margin: 0;
+            padding: 16px;
+        }
+
+        .game-container {
+            background: #e9f2fa;
+            border-radius: 48px 48px 32px 32px;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2), inset 0 0 0 2px #d9e9f9, inset 0 0 0 6px #a5d0f5;
+            padding: 28px 20px 32px 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            color: #1d4e6f;
+            text-shadow: 4px 4px 0 #9ac0e0;
+            margin-top: -10px;
+            margin-bottom: 16px;
+            word-break: break-word;
+            transform: rotate(-1deg);
+        }
+
+        .fortune-paper {
+            background: #d9e9f9;
+            border-radius: 120px 120px 60px 60px;
+            padding: 20px 12px 12px 12px;
+            box-shadow: inset 0 4px 10px #7ca5c9, 0 10px 0 #3a6285;
+        }
+
+        .picker-zone {
+            background: #c1dff5;
+            border-radius: 80px;
+            padding: 18px 10px 10px 10px;
+            box-shadow: inset 0 -3px 0 #5f8ab0;
+        }
+
+        .fold-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px 30px;
+            margin: 20px 0 18px;
+        }
+
+        .color-flap {
+            background: #ffe7c4;
+            border-radius: 30px 30px 16px 16px;
+            padding: 20px 16px 16px;
+            flex: 1 1 180px;
+            min-width: 150px;
+            box-shadow: 0 6px 0 #b48d66, 0 8px 12px rgba(0,0,0,0.2);
+            transition: all 0.1s ease;
+            border: 2px solid #f5ba88;
+        }
+
+        .flap-number {
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 700;
+            color: #cc7f4a;
+            text-align: center;
+            text-shadow: 2px 2px 0 #ffc;
+            margin-bottom: 4px;
+        }
+
+        .flap-letters {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #1d4e6f;
+            background: #fdf1e0;
+            border-radius: 60px;
+            padding: 6px 10px;
+            border: 2px solid #eab281;
+        }
+
+        .fortune-screen {
+            background: #d1e2f0;
+            border-radius: 50px;
+            padding: 22px 12px;
+            margin: 12px 0 24px;
+            box-shadow: inset 0 0 0 4px #9bb9d4, 0 6px 0 #2d5475;
+        }
+
+        .fortune-message {
+            background: white;
+            font-size: 2rem;
+            padding: 26px 16px;
+            text-align: center;
+            border-radius: 40px;
+            color: #1d3b4f;
+            box-shadow: inset 0 2px 10px #7c9ec2;
+            border: 3px dashed #6d9ac8;
+            word-break: break-word;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.3;
+            font-family: 'Kalam', 'Comic Sans MS', cursive;
+        }
+
+        .action-panel {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 16px 0 8px;
+        }
+
+        button {
+            background: #4682b4;
+            border: none;
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 18px 28px;
+            border-radius: 60px;
+            color: #f0f8ff;
+            text-shadow: 2px 2px 0 #1e3e5c;
+            box-shadow: 0 8px 0 #1e3e5c, 0 6px 16px #5f7f9f;
+            cursor: pointer;
+            transition: 0.06s linear;
+            font-family: inherit;
+            letter-spacing: 1px;
+            flex: 1 1 auto;
+            min-width: 160px;
+            border: 2px solid #b0d4f0;
+        }
+
+        button:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 #1e3e5c, 0 6px 16px #5f7f9f;
+        }
+
+        .instructions {
+            background: #c8dff0;
+            border-radius: 40px;
+            padding: 20px 16px;
+            margin-top: 24px;
+            font-size: 1.4rem;
+            text-align: center;
+            color: #1d3b4f;
+            border: 4px solid #6d9ac8;
+            box-shadow: inset 0 0 0 2px #e1f0fa;
+        }
+
+        .instructions span {
+            background: #2d5475;
+            color: #e1f0fa;
+            padding: 4px 18px;
+            border-radius: 60px;
+            margin: 0 4px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .credit {
+            text-align: center;
+            margin-top: 12px;
+            color: #2d5475;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <h1>✧ MOTIVATION CATCHER ✧</h1>
+    <div class="fortune-paper">
+        <div class="picker-zone">
+            <!-- the four coloured flaps -->
+            <div class="fold-grid">
+                <!-- flap 1 : red / north -->
+                <div class="color-flap" style="background: #fbc1b1;">
+                    <div class="flap-number">1</div>
+                    <div class="flap-letters">🅐 🅔</div>
+                </div>
+                <!-- flap 2 : yellow / west -->
+                <div class="color-flap" style="background: #f5e58b;">
+                    <div class="flap-number">2</div>
+                    <div class="flap-letters">🅘 🅞</div>
+                </div>
+                <!-- flap 3 : blue / south -->
+                <div class="color-flap" style="background: #a9d6e5;">
+                    <div class="flap-number">3</div>
+                    <div class="flap-letters">🅤 🅕</div>
+                </div>
+                <!-- flap 4 : green / east -->
+                <div class="color-flap" style="background: #b6d7a8;">
+                    <div class="flap-number">4</div>
+                    <div class="flap-letters">🅢 🅣</div>
+                </div>
+            </div>
+
+            <!-- MOTIVATION DISPLAY -->
+            <div class="fortune-screen">
+                <div class="fortune-message" id="motivationText">
+                    pick a number<br>✦ then a letter ✦
+                </div>
+            </div>
+
+            <!-- BUTTON PANEL -->
+            <div class="action-panel">
+                <button id="chooseNumberBtn">🔢 1 2 3 4</button>
+                <button id="chooseLetterBtn">🔤 pick letter</button>
+                <button id="resetBtn">🌀 new boost</button>
+            </div>
+
+            <div class="instructions">
+                <span>1</span> click a number → <span>2</span> click a letter →<br>
+                💪 get your daily motivation 💪
+            </div>
+            <div class="credit">
+                ⚡ daily boost · you've got this ⚡
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // ----- MOTIVATIONAL QUOTES (eight powerful thoughts) -----
+        const MOTIVATIONS = [
+            "💪 YOU ARE STRONGER THAN YOU THINK 💪",
+            "✨ TODAY IS FULL OF POSSIBILITIES ✨", 
+            "🌟 BELIEVE YOU CAN AND YOU'RE HALFWAY THERE 🌟",
+            "💖 YOU DESERVE GOOD THINGS TODAY 💖",
+            "🌙 EVERY EXPERT WAS ONCE A BEGINNER 🌙",
+            "⭐ YOUR POTENTIAL IS LIMITLESS ⭐",
+            "🎉 PROGRESS > PERFECTION 🎉",
+            "🍭 YOU ARE ENOUGH, JUST AS YOU ARE 🍭"
+        ];
+
+        // mapping flap number -> array of two letters
+        const FLAP_LETTERS = {
+            1: ['A', 'E'],
+            2: ['I', 'O'],
+            3: ['U', 'F'],
+            4: ['S', 'T']
+        };
+
+        // ---------- state ----------
+        let phase = 'number';            
+        let selectedNumber = null;        
+        let selectedLetter = null;        
+
+        // DOM elements
+        const motivationDiv = document.getElementById('motivationText');
+        const numberBtn = document.getElementById('chooseNumberBtn');
+        const letterBtn = document.getElementById('chooseLetterBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const flaps = document.querySelectorAll('.color-flap');
+
+        // helper: clear any highlight from flaps
+        function clearFlapHighlights() {
+            flaps.forEach(flap => {
+                flap.style.boxShadow = '0 6px 0 #b48d66, 0 8px 12px rgba(0,0,0,0.2)';
+                flap.style.border = '2px solid #f5ba88';
+            });
+        }
+
+        // highlight a specific flap by number
+        function highlightFlap(number) {
+            clearFlapHighlights();
+            if (number >= 1 && number <= 4) {
+                const target = flaps[number - 1];
+                target.style.boxShadow = '0 0 0 4px #fdb, 0 6px 0 #b48d66, 0 8px 12px black';
+                target.style.border = '3px solid #ff7f4f';
+            }
+        }
+
+        // reset entire game
+        function resetGame() {
+            phase = 'number';
+            selectedNumber = null;
+            selectedLetter = null;
+            clearFlapHighlights();
+            motivationDiv.innerHTML = 'pick a number<br>✦ then a letter ✦';
+        }
+
+        // call when number is chosen
+        function chooseNumber(num) {
+            if (num < 1 || num > 4) return;
+            selectedNumber = num;
+            selectedLetter = null;
+            phase = 'letter';
+            highlightFlap(num);
+            motivationDiv.innerHTML = `number ${num} · now pick a letter<br>➥ ${FLAP_LETTERS[num][0]}  or  ${FLAP_LETTERS[num][1]}`;
+        }
+
+        // pick a letter and show motivation
+        function pickLetter(letter) {
+            if (phase !== 'letter') {
+                motivationDiv.innerHTML = 'first pick a number (click 1️⃣2️⃣3️⃣4️⃣)';
+                return false;
+            }
+            if (selectedNumber === null) {
+                phase = 'number';
+                motivationDiv.innerHTML = 'pick a number first';
+                return false;
+            }
+
+            const validLetters = FLAP_LETTERS[selectedNumber];
+            if (!validLetters.includes(letter)) {
+                motivationDiv.innerHTML = `🤔 pick ${validLetters[0]} or ${validLetters[1]}`;
+                return false;
+            }
+
+            // valid letter chosen
+            selectedLetter = letter;
+
+            // generate motivation based on number + letter
+            let letterIndex = (validLetters[0] === letter) ? 0 : 1;
+            let motivationIdx = (selectedNumber - 1) * 2 + letterIndex;
+
+            const finalMotivation = MOTIVATIONS[motivationIdx];
+
+            // display motivation
+            motivationDiv.innerHTML = `💫 ${finalMotivation} 💫`;
+            phase = 'reveal';
+            highlightFlap(selectedNumber);
+            return true;
+        }
+
+        // number button - cycles through numbers
+        numberBtn.addEventListener('click', () => {
+            let nextNum;
+            if (selectedNumber === null) {
+                nextNum = 1;
+            } else {
+                nextNum = (selectedNumber % 4) + 1;
+            }
+            chooseNumber(nextNum);
+        });
+
+        // letter button - cycles through the two letters
+        letterBtn.addEventListener('click', () => {
+            if (phase !== 'letter' || selectedNumber === null) {
+                motivationDiv.innerHTML = '❗ first choose a number (click 1️⃣2️⃣3️⃣4️⃣)';
+                return;
+            }
+
+            const letters = FLAP_LETTERS[selectedNumber];
+            
+            if (phase === 'letter' && selectedLetter === null) {
+                // pick first letter
+                pickLetter(letters[0]);
+            } 
+            else if (phase === 'letter' && selectedLetter !== null) {
+                // toggle between the two letters
+                let nextLetter = (selectedLetter === letters[0]) ? letters[1] : letters[0];
+                pickLetter(nextLetter);
+            } 
+            else if (phase === 'reveal') {
+                // go back to letter phase with same number
+                if (selectedNumber) {
+                    phase = 'letter';
+                    selectedLetter = null;
+                    highlightFlap(selectedNumber);
+                    motivationDiv.innerHTML = `number ${selectedNumber} · pick letter → ${FLAP_LETTERS[selectedNumber][0]} or ${FLAP_LETTERS[selectedNumber][1]}`;
+                } else {
+                    resetGame();
+                }
+            }
+        });
+
+        // reset button
+        resetBtn.addEventListener('click', resetGame);
+
+        // click on flap to choose number
+        flaps.forEach((flap, index) => {
+            flap.addEventListener('click', () => {
+                const num = index + 1;
+                chooseNumber(num);
+            });
+        });
+
+        // initialize
+        resetGame();
+    })();
+</script>
+</body>
+</html>

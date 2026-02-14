@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mood catcher · absolutely fixed</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            user-select: none;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e0c1f9 0%, #c5a0f5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+            margin: 0;
+            padding: 16px;
+        }
+
+        .game-container {
+            background: #f2e6fa;
+            border-radius: 48px 48px 32px 32px;
+            box-shadow: 0 20px 30px rgba(0,0,0,0.2), inset 0 0 0 2px #e2d1f9, inset 0 0 0 6px #c5a0f5;
+            padding: 28px 20px 32px 20px;
+            max-width: 680px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 500;
+            letter-spacing: 2px;
+            color: #4a2d6f;
+            text-shadow: 4px 4px 0 #b89ae0;
+            margin-top: -10px;
+            margin-bottom: 16px;
+        }
+
+        .mood-selector {
+            background: #d9c2f0;
+            border-radius: 60px;
+            padding: 24px 16px;
+            margin-bottom: 24px;
+            box-shadow: inset 0 0 0 4px #b592e0, 0 6px 0 #4a2d6f;
+        }
+
+        .mood-title {
+            font-size: 2rem;
+            text-align: center;
+            color: #2d1b45;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        .mood-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .mood-btn {
+            font-size: 2rem;
+            padding: 16px 28px;
+            border-radius: 60px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.1s ease;
+            box-shadow: 0 6px 0 #4a2d6f, 0 4px 12px rgba(0,0,0,0.2);
+            flex: 1 1 auto;
+            min-width: 150px;
+            border: 3px solid white;
+        }
+
+        .mood-btn.active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #4a2d6f, 0 4px 12px rgba(0,0,0,0.2);
+            border: 3px solid gold;
+        }
+
+        #moodHappy {
+            background: #ffe57f;
+            color: #8a6b2f;
+        }
+        #moodSad {
+            background: #9fc7f0;
+            color: #1d4b6e;
+        }
+        #moodMotivation {
+            background: #b8f0b8;
+            color: #1e6b1e;
+        }
+
+        .fortune-paper {
+            background: #e2d1f9;
+            border-radius: 120px 120px 60px 60px;
+            padding: 20px 12px 12px 12px;
+            box-shadow: inset 0 4px 10px #a27ac9, 0 10px 0 #5a3a85;
+        }
+
+        .picker-zone {
+            background: #d2bcf0;
+            border-radius: 80px;
+            padding: 18px 10px 10px 10px;
+            box-shadow: inset 0 -3px 0 #7f5fb0;
+        }
+
+        .fold-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px 30px;
+            margin: 20px 0 18px;
+        }
+
+        .color-flap {
+            background: #ffe7c4;
+            border-radius: 30px 30px 16px 16px;
+            padding: 16px 16px 20px;
+            flex: 1 1 150px;
+            min-width: 140px;
+            box-shadow: 0 6px 0 #b48d66, 0 8px 12px rgba(0,0,0,0.2);
+            transition: all 0.1s ease;
+            border: 2px solid #f5ba88;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .flap-number {
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 700;
+            color: #cc7f4a;
+            text-align: center;
+            text-shadow: 2px 2px 0 #ffc;
+            margin-bottom: 10px;
+            pointer-events: none;
+        }
+
+        .flap-numbers {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #4a2d6f;
+            background: #fdf1e0;
+            border-radius: 50px;
+            padding: 10px 8px;
+            border: 2px solid #eab281;
+            min-height: 70px;
+            align-items: center;
+            flex-wrap: wrap;
+            pointer-events: none;
+        }
+
+        .number-btn {
+            cursor: pointer;
+            padding: 5px 14px;
+            border-radius: 40px;
+            background: #f7d9b3;
+            display: inline-block;
+            box-shadow: 0 3px 0 #b48d66;
+            font-size: 2rem;
+            min-width: 45px;
+            text-align: center;
+            pointer-events: auto;
+            border: none;
+            transition: all 0.1s ease;
+        }
+
+        .number-btn:hover {
+            background: #ffd966;
+            transform: scale(1.1);
+        }
+
+        .number-btn.selected {
+            background: gold;
+            box-shadow: 0 0 0 3px #ff7f4f, 0 3px 0 #b48d66;
+        }
+
+        .selection-display {
+            background: #b092d4;
+            border-radius: 40px;
+            padding: 15px;
+            margin: 10px 0 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            font-size: 2rem;
+            color: white;
+            text-shadow: 2px 2px 0 #4a2d6f;
+            font-weight: bold;
+        }
+
+        .selection-item {
+            background: #4a2d6f;
+            padding: 10px 25px;
+            border-radius: 40px;
+            min-width: 120px;
+            text-align: center;
+            border: 3px solid #f0e2ff;
+        }
+
+        .selection-item span {
+            color: gold;
+            margin-right: 8px;
+        }
+
+        .message-screen {
+            background: #d2bcf0;
+            border-radius: 50px;
+            padding: 22px 12px;
+            margin: 12px 0 24px;
+            box-shadow: inset 0 0 0 4px #b092d4, 0 6px 0 #4a2d6f;
+        }
+
+        .message-display {
+            background: white;
+            font-size: 2rem;
+            padding: 26px 16px;
+            text-align: center;
+            border-radius: 40px;
+            color: #2d1b45;
+            box-shadow: inset 0 2px 10px #9c7ac2;
+            border: 3px dashed #9a7cc0;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.3;
+            font-family: 'Kalam', 'Comic Sans MS', cursive;
+        }
+
+        .action-panel {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 16px 0 8px;
+        }
+
+        button {
+            background: #7a5fa0;
+            border: none;
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 18px 28px;
+            border-radius: 60px;
+            color: #f0e8ff;
+            text-shadow: 2px 2px 0 #392b5a;
+            box-shadow: 0 8px 0 #392b5a, 0 6px 16px #6f4f9f;
+            cursor: pointer;
+            transition: 0.06s linear;
+            font-family: inherit;
+            letter-spacing: 1px;
+            flex: 1 1 auto;
+            min-width: 160px;
+            border: 2px solid #cfb5f0;
+        }
+
+        button:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 #392b5a, 0 6px 16px #6f4f9f;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #392b5a;
+            cursor: not-allowed;
+        }
+
+        .go-button {
+            background: #ff9900;
+            text-shadow: 2px 2px 0 #b36b00;
+            box-shadow: 0 8px 0 #b36b00, 0 6px 16px #ffb347;
+            font-size: 2.2rem;
+            padding: 20px 40px;
+            min-width: 200px;
+            border: 3px solid gold;
+        }
+
+        .go-button.ready {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); background: #ffb347; }
+            100% { transform: scale(1); }
+        }
+
+        .instructions {
+            background: #d9c2f0;
+            border-radius: 40px;
+            padding: 20px 16px;
+            margin-top: 24px;
+            font-size: 1.4rem;
+            text-align: center;
+            color: #2d1b45;
+            border: 4px solid #9a7cc0;
+            box-shadow: inset 0 0 0 2px #f0e2ff;
+        }
+
+        .instructions span {
+            background: #4a2d6f;
+            color: #f0e2ff;
+            padding: 4px 18px;
+            border-radius: 60px;
+            margin: 0 4px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .credit {
+            text-align: center;
+            margin-top: 12px;
+            color: #4a2d6f;
+            font-size: 1.2rem;
+        }
+
+        .mood-indicator {
+            font-size: 1.8rem;
+            text-align: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: #ffffff88;
+            border-radius: 40px;
+            border: 2px solid #9a7cc0;
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <h1>✧ MOOD CATCHER ✧</h1>
+    
+    <div class="mood-selector">
+        <div class="mood-title">how are you feeling today?</div>
+        <div class="mood-buttons">
+            <button class="mood-btn" id="moodHappy">😊 HAPPY</button>
+            <button class="mood-btn" id="moodSad">😢 SAD</button>
+            <button class="mood-btn" id="moodMotivation">💪 MOTIVATION</button>
+        </div>
+    </div>
+
+    <div class="fortune-paper">
+        <div class="picker-zone">
+            <div class="mood-indicator" id="moodDisplay">✨ pick your mood first ✨</div>
+
+            <div class="fold-grid">
+                <!-- flap 1 -->
+                <div class="color-flap" style="background: #fbc1b1;" data-flap="1">
+                    <div class="flap-number">①</div>
+                    <div class="flap-numbers" id="flap1"></div>
+                </div>
+                <!-- flap 2 -->
+                <div class="color-flap" style="background: #f5e58b;" data-flap="2">
+                    <div class="flap-number">②</div>
+                    <div class="flap-numbers" id="flap2"></div>
+                </div>
+                <!-- flap 3 -->
+                <div class="color-flap" style="background: #a9d6e5;" data-flap="3">
+                    <div class="flap-number">③</div>
+                    <div class="flap-numbers" id="flap3"></div>
+                </div>
+                <!-- flap 4 -->
+                <div class="color-flap" style="background: #b6d7a8;" data-flap="4">
+                    <div class="flap-number">④</div>
+                    <div class="flap-numbers" id="flap4"></div>
+                </div>
+            </div>
+
+            <div class="selection-display">
+                <div class="selection-item" id="displayMood"><span>😊</span> --</div>
+                <div class="selection-item" id="displayNumber"><span>🔢</span> --</div>
+            </div>
+
+            <div class="message-screen">
+                <div class="message-display" id="messageText">
+                    select mood first<br>✦ then click a number (1-8) ✦
+                </div>
+            </div>
+
+            <div class="action-panel">
+                <button id="goBtn" class="go-button" disabled>🚀 GO</button>
+                <button id="resetBtn">🌀 start over</button>
+            </div>
+
+            <div class="instructions">
+                <span>1</span> pick mood → <span>2</span> click any number → <span>3</span> GO<br>
+                💡 Flaps ①②③: 1,2,5,6 | Flap ④: 3,4,7,8
+            </div>
+            <div class="credit">
+                ⚡ all numbers work: 1 2 3 4 5 6 7 8 ⚡
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // Messages
+        const MESSAGES = {
+            happy: [
+                "😊 YOUR SMILE BRIGHTENS SOMEONE'S DAY",
+                "✨ THIS HAPPINESS? YOU DESERVE IT ALL",
+                "🌟 TODAY IS YOUR DAY - ENJOY EVERY MOMENT",
+                "💖 SPREAD YOUR JOY, IT'S CONTAGIOUS",
+                "🌙 HAPPY VIBES ATTRACT GOOD THINGS",
+                "⭐ YOUR ENERGY IS MAGNETIC TODAY",
+                "🎉 CELEBRATE THE LITTLE WINS",
+                "🍭 LIFE IS GOOD AND YOU ARE TOO"
+            ],
+            sad: [
+                "💙 IT'S OKAY NOT TO BE OKAY",
+                "🌧️ STORMS DON'T LAST FOREVER",
+                "🌸 THIS FEELING WILL PASS, BE GENTLE WITH YOURSELF",
+                "🤗 YOU ARE LOVED, EVEN WHEN IT'S HARD TO FEEL IT",
+                "🌙 REST IF YOU MUST, BUT DON'T YOU QUIT",
+                "💫 EVEN THE DARKEST NIGHT ENDS WITH SUNRISE",
+                "🧸 BE KIND TO YOUR HEART TODAY",
+                "💕 YOU'VE MADE IT THROUGH 100% OF YOUR BAD DAYS"
+            ],
+            motivation: [
+                "💪 YOU ARE STRONGER THAN YOU THINK",
+                "🚀 DREAM BIG, THEN MAKE IT HAPPEN",
+                "⚡ YOUR POTENTIAL IS LIMITLESS",
+                "🎯 EVERY EXPERT WAS ONCE A BEGINNER",
+                "🌟 BELIEVE YOU CAN AND YOU'RE HALFWAY THERE",
+                "🔥 PROGRESS, NOT PERFECTION",
+                "💫 YOU'VE GOT THE POWER TO CHANGE YOUR STORY",
+                "🌈 TODAY'S EFFORT = TOMORROW'S SUCCESS"
+            ]
+        };
+
+        // State
+        let currentMood = null;
+        let selectedNumber = null;
+
+        // DOM elements
+        const

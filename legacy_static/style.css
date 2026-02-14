@@ -1,0 +1,256 @@
+:root {
+    /* Base Colors */
+    --bg-color: #f0f0f0;
+    --text-color: #333;
+    --card-bg: #fff;
+    --primary-color: #6200ea;
+
+    /* Happy Theme */
+    --happy-bg: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+    --happy-accent: #FFD700;
+    --happy-btn-bg: #4CAF50;
+    --happy-btn-text: #fff;
+
+    /* Sad Theme */
+    --sad-bg: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    /* Actually let's make sad a bit more gloomy/calm but still nice */
+    --sad-bg: linear-gradient(135deg, #accbee 0%, #e7f0fd 100%);
+    --sad-accent: #607D8B;
+    --sad-btn-bg: #5c6bc0;
+    --sad-btn-text: #fff;
+
+    --transition-speed: 0.3s;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    overflow: hidden;
+    /* Prevent scrolling during animations */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#app {
+    width: 100%;
+    max-width: 600px;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity var(--transition-speed) ease-in-out, transform var(--transition-speed) ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.95);
+}
+
+.screen.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: scale(1);
+}
+
+.screen.hidden {
+    display: none;
+    /* Helpers for complete removal if needed, though opacity handles visual */
+}
+
+/* Mood Screen */
+#mood-screen h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #333;
+}
+
+.mood-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.mood-btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.mood-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.mood-btn.happy {
+    background-color: var(--happy-btn-bg);
+    color: var(--happy-btn-text);
+}
+
+.mood-btn.sad {
+    background-color: var(--sad-btn-bg);
+    color: var(--sad-btn-text);
+}
+
+/* Game Screen */
+#game-screen .header {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    text-align: center;
+    z-index: 10;
+}
+
+#back-btn {
+    position: absolute;
+    left: 20px;
+    top: 0;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: inherit;
+    font-weight: 600;
+}
+
+.fortune-teller-container {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    perspective: 1000px;
+    /* For 3D effects */
+}
+
+.fortune-teller {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 5px;
+}
+
+/* Flaps/Segments */
+.flap {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 800;
+    font-size: 1.5rem;
+    color: white;
+    border-radius: 15px;
+    /* Rounded corners */
+    transition: transform 0.2s, background-color 0.3s;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.1);
+    /* Inset for depth */
+    position: relative;
+    overflow: hidden;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.flap:hover {
+    transform: scale(1.02);
+    z-index: 2;
+    filter: brightness(1.1);
+}
+
+/* Themes via body classes */
+body.theme-happy {
+    background: var(--happy-bg);
+}
+
+body.theme-happy .flap {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+body.theme-sad {
+    background: var(--sad-bg);
+}
+
+/* Result Screen */
+.result-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.primary-btn {
+    margin-top: 20px;
+    padding: 10px 25px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: opacity 0.2s;
+}
+
+.primary-btn:hover {
+    opacity: 0.9;
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Specific colors for fortune teller inner flaps will act as "colors" */
+.color-red {
+    background-color: #FF5252;
+}
+
+.color-blue {
+    background-color: #448AFF;
+}
+
+.color-green {
+    background-color: #69F0AE;
+}
+
+.color-yellow {
+    background-color: #FFD740;
+}
+
+.number-flap {
+    background-color: #eee;
+    color: #333;
+    font-size: 1.5rem;
+}
